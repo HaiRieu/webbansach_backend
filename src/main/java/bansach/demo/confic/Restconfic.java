@@ -15,20 +15,19 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 public class Restconfic implements RepositoryRestConfigurer {
 
 
-    private String url = "http://localhost:3000" ;
+   // private String url = "http://localhost:3000" ;
 
     @Autowired
     private EntityManager entityManager ;
 
 
     @Override
-    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
+   public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
         config.exposeIdsFor(entityManager.getMetamodel().getEntities().stream().map(Type::getJavaType).toArray(Class[]::new));
-        cors.addMapping("/**").allowedOrigins(url).allowedMethods("GET" , "PUT" ,"POST" ,"DELETE");
 
-        HttpMethod[] chancacphuongthuc = {
-           HttpMethod.POST , HttpMethod.PUT , HttpMethod.DELETE , HttpMethod.PATCH ,
-        } ;
+    /*    cors.addMapping("/**").allowedOrigins(url).allowedMethods("GET" , "PUT" ,"POST" ,"DELETE");
+      HttpMethod[] chancacphuongthuc = {HttpMethod.POST , HttpMethod.PUT , HttpMethod.DELETE , HttpMethod.PATCH ,
+        };
 
     }
 
@@ -38,6 +37,8 @@ public class Restconfic implements RepositoryRestConfigurer {
                     ).withCollectionExposure((metdata, httpMethods) -> httpMethods.disable());
 
 
-    }
+    }*/
 
+
+    }
 }
