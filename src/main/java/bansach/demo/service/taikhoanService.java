@@ -10,15 +10,26 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
+
 @Service
 public class taikhoanService {
 
-    @Autowired
+
     private khachhangRepositority  khachhangRepositority ;
-    @Autowired
+
     private BCryptPasswordEncoder bCryptPasswordEncoder ;
 
-     public ResponseEntity<?>  dangkitaikhoankh(Khachhang khachhang) {
+    private emailService emailService ;
+
+    @Autowired
+    public taikhoanService(bansach.demo.Repositority.khachhangRepositority khachhangRepositority, BCryptPasswordEncoder bCryptPasswordEncoder, bansach.demo.service.emailService emailService) {
+        this.khachhangRepositority = khachhangRepositority;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.emailService = emailService;
+    }
+
+    public ResponseEntity<?>  dangkitaikhoankh(Khachhang khachhang) {
          if(khachhangRepositority.existsByTendangnhap(khachhang.getTendangnhap())) {
              return  ResponseEntity.badRequest().body(new thongbao("Tên đăng nhập đã tồn tại"));
          }
@@ -29,10 +40,29 @@ public class taikhoanService {
          String matkhaumahoa = bCryptPasswordEncoder.encode(khachhang.getMatkhau());
          khachhang.setMatkhau(matkhaumahoa);
 
+         khachhang.setMakichhoat(taomakichhoat());
+         khachhang.setDakichhoat(false);
 
          Khachhang khachhang1 = khachhangRepositority.save(khachhang) ;
+
+         guiemail(khachhang.getEmail() , khachhang.getMakichhoat());
          return ResponseEntity.ok().body(new thongbao("Đăng kí tài khoản thành công")) ;
 
+
+     }
+
+     private String taomakichhoat() {
+         Random random = new Random() ;
+         int makichhoatso = random.nextInt(100000) + 1 ;
+         String makichhoat = Integer.valueOf(makichhoatso).toString();
+         return makichhoat ;
+     }
+     private void guiemail (String email , String makichhoat) {
+        String tieude = "Kích Hoạt Tài Khoản Của Bạn Tại WebBanSach";
+        String noidung = "Vui Lòng Sử Dụng Mã Sau Để Kích Hoạt Cho Tài Khoản "
+                + email +  "</br> " +
+                "<h1> " + makichhoat + "</h1>" ;
+          emailService.senMaseger ("dhai181204@gmail.com",email , tieude , noidung);
 
      }
 

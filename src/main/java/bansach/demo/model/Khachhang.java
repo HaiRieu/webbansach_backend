@@ -36,6 +36,12 @@ public class Khachhang {
     @Column(name = "matkhau")
     private String matkhau ;
 
+    @Column(name = "dakichhoat")
+    private boolean dakichhoat ;
+
+    @Column(name = "makichhoat")
+    private String makichhoat ;
+
     @OneToMany(mappedBy = "khachhang" , cascade = {CascadeType.PERSIST , CascadeType.ALL ,
     })
     private List<Giohang> danhsachgh ;
@@ -56,4 +62,10 @@ public class Khachhang {
             inverseJoinColumns = @JoinColumn(name = "maquyen")
     )
    private List<Quyen> quyen ;
+
+
+
+
+
 }
+
