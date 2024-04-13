@@ -7,6 +7,9 @@ public class endpond {
     public static  final  String[] PUBLIC_GET_ENPOINS = {
             "/sach" ,
             "/sach/**",
+            "/theloai" ,
+            "/theloai/**",
+           "/khachhang/search/**",
 
     };
 
@@ -20,6 +23,8 @@ public class endpond {
             "/sach" ,
             "/sach/**",
             "/taikhoan/dangki",
+            "/theloai" ,
+            "/theloai/**"
 
     };
 

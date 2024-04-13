@@ -9,7 +9,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface khachhangRepositority extends JpaRepository<Khachhang , Integer > {
             public boolean existsByTendangnhap(String tendangnhap) ;
 
-            public boolean existsByEmail(String dcemail) ;
+            public boolean existsByEmail(String email) ;
 
             public Khachhang findByTendangnhap(String tenkhachhang) ;
 

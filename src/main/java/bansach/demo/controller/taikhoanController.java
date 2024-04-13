@@ -15,6 +15,10 @@ public class taikhoanController {
     @Autowired
     private taikhoanService taikhoanService ;
 
+
+
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/dangki")
     public ResponseEntity<?> dangkikhachhang (@Validated @RequestBody Khachhang khachhang ) {
         ResponseEntity<?> responseEntity = taikhoanService.dangkitaikhoankh(khachhang);

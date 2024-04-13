@@ -53,7 +53,7 @@ public class securitiConfig {
                cors.configurationSource(request -> {
                    CorsConfiguration configuration = new CorsConfiguration();
                    configuration.addAllowedOrigin(endpond.font_end_host);
-                   configuration.setAllowedHeaders(Arrays.asList("GET" , "POST" , "PUT" , "DELETE"));
+                   configuration.setAllowedMethods(Arrays.asList("GET" , "POST" , "PUT" , "DELETE"));
                    configuration.addAllowedHeader("*");
                    return configuration ;
                });
