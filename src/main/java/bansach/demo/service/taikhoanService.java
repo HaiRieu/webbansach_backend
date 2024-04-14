@@ -46,9 +46,7 @@ public class taikhoanService {
          Khachhang khachhang1 = khachhangRepositority.save(khachhang) ;
 
          guiemail(khachhang.getEmail() , khachhang.getMakichhoat());
-         return ResponseEntity.ok().body(new thongbao("Đăng kí tài khoản thành công")) ;
-
-
+        return ResponseEntity.ok().body(new thongbao("Đăng kí tài khoản thành công")) ;
      }
 
      private String taomakichhoat() {
@@ -59,12 +57,34 @@ public class taikhoanService {
      }
      private void guiemail (String email , String makichhoat) {
         String tieude = "Kích Hoạt Tài Khoản Của Bạn Tại WebBanSach";
+        String url = "http://localhost:3000/taikhoan/kichhoat/"+email+"/"+makichhoat ;
         String noidung = "Vui Lòng Sử Dụng Mã Sau Để Kích Hoạt Cho Tài Khoản "
-                + email +  "</br> " +
-                "<h1> " + makichhoat + "</h1>" ;
+                + email +  " <html> <body>  </br> " +
+                "<h1> " + makichhoat + "</h1> </body> </html>" ;
+             noidung+= "</br> Click Vào Đường Dãn Đẻ Kích Hoạt: " + "</br> <a href=" +url+ " >     "+ url +"</a>";
+
+
           emailService.senMaseger ("dhai181204@gmail.com",email , tieude , noidung);
 
      }
 
+     public ResponseEntity<?> kichhoattaikhoan (String email , String makichhoat) {
+
+         Khachhang khachhang = khachhangRepositority.findByEmail(email);
+         if (khachhang == null) {
+             return ResponseEntity.badRequest().body(new thongbao(" khach hang k ton tai"));
+
+         }
+         if (khachhang.isDakichhoat()) {
+             return ResponseEntity.badRequest().body(new thongbao(" tai khoan da dc kich hoat "));
+         }
+         if (makichhoat.equals(khachhang.getMakichhoat())) {
+             khachhang.setDakichhoat(true);
+             khachhangRepositority.save(khachhang);
+             return ResponseEntity.badRequest().body(new thongbao(" tai khoan kich hoat thanh cong  "));
+         }else {
+             return ResponseEntity.badRequest().body(new thongbao(" ma kich hoat khong chinh xac "));
+         }
+     }
 
 }

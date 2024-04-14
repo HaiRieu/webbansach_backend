@@ -13,4 +13,6 @@ public interface khachhangRepositority extends JpaRepository<Khachhang , Integer
 
             public Khachhang findByTendangnhap(String tenkhachhang) ;
 
+            public Khachhang findByEmail(String email) ;
+
 }

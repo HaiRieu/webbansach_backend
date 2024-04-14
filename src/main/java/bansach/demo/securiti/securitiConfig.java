@@ -4,12 +4,15 @@ package bansach.demo.securiti;
 import bansach.demo.service.userServive;
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.EndpointConfig;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,7 +46,7 @@ public class securitiConfig {
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
            http.authorizeHttpRequests(
                    configu -> configu.
-                           requestMatchers(  HttpMethod.GET , endpond.PUBLIC_GET_ENPOINS ).permitAll()
+                           requestMatchers( HttpMethod.GET , endpond.PUBLIC_GET_ENPOINS ).permitAll()
                            .requestMatchers(HttpMethod.POST , endpond.PUBLIC_POST_ENPOINS).permitAll()
                            .requestMatchers(HttpMethod.GET,endpond.ADMIN_GET_ENPOINS).hasAuthority("ADMIN")
 
@@ -61,6 +64,11 @@ public class securitiConfig {
            http.httpBasic(Customizer.withDefaults());
            http.csrf(cfst -> cfst.disable());
         return http.build() ;
+    }
+
+    @Bean
+      public AuthenticationManager authenticationManager (AuthenticationConfiguration confic) throws  Exception {
+      return confic.getAuthenticationManager();
     }
 
 
