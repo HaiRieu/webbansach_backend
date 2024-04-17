@@ -32,6 +32,11 @@ public class endpond {
             "/theloai/**"
 
     };
+    public static  final  String[] ADMIN_POST_ENPOINS = {
+           "/sach" ,
+
+    };
+
 
 
 }

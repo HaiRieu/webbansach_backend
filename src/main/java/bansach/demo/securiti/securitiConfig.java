@@ -1,6 +1,7 @@
 package bansach.demo.securiti;
 
 
+import bansach.demo.filter.jwtFilter;
 import bansach.demo.service.userServive;
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.EndpointConfig;
@@ -17,12 +18,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.Arrays;
 
 @Configuration
 public class securitiConfig {
+
+
+    @Autowired
+    private jwtFilter jwtFilter ;
 
 
     @Bean
@@ -49,6 +55,7 @@ public class securitiConfig {
                            requestMatchers( HttpMethod.GET , endpond.PUBLIC_GET_ENPOINS ).permitAll()
                            .requestMatchers(HttpMethod.POST , endpond.PUBLIC_POST_ENPOINS).permitAll()
                            .requestMatchers(HttpMethod.GET,endpond.ADMIN_GET_ENPOINS).hasAuthority("ADMIN")
+                           .requestMatchers(HttpMethod.POST,endpond.ADMIN_POST_ENPOINS).hasAuthority("ADMIN")
 
 
                    ) ;
@@ -61,6 +68,7 @@ public class securitiConfig {
                    return configuration ;
                });
            }) ;
+           http.addFilterBefore(jwtFilter , UsernamePasswordAuthenticationFilter.class);
            http.httpBasic(Customizer.withDefaults());
            http.csrf(cfst -> cfst.disable());
         return http.build() ;

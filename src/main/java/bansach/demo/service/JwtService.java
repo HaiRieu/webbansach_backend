@@ -19,12 +19,11 @@ import java.util.function.Function;
 @Component
 public class JwtService {
    private final  String JWT_Seret = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437" ;
-
    private final long jwt_expiration = 30*60*1000 ;
 
    public String generateToken(String tendangnhap) {
        Map<String , Object> cliams = new HashMap<>();
-       cliams.put("isAdmin", true) ;
+     //  cliams.put("isAdmin", true) ;
        return  createToken(cliams , tendangnhap) ;
 
    }
@@ -61,7 +60,7 @@ public class JwtService {
      return extraclim(token , Claims::getExpiration);
     }
 
-    private String extaName(String token) {
+    public String extaName(String token) {
        return  extraclim(token , Claims::getSubject);
 
     }
